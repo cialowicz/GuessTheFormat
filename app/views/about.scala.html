@@ -1,0 +1,258 @@
+@main("GuessTheFormat: About") {
+    <div class="page-header">
+        <h3>About</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div id="intro" class="well well-lg">
+                <p>
+                    <strong><em>GuessTheFormat</em> is an experiment for photographers: can you tell the difference between camera sensor formats just by looking at a photo?</strong>
+                </p>
+                <p>
+                    Does sensor format really matter as much as many photographers think it does? Is an image from a full-frame camera really distinguishable from one taken with an APS-C camera? Perhaps not as easily as you think.
+                </p>
+                <p>
+                    Head over to the <a type="button" class="btn btn-default btn-xs" href="/photo">photo</a> page to test your identification skills,
+                    or check out the <a type="button" class="btn btn-default btn-xs" href="/stats">stats</a> page to see how different formats measure up against each other.
+                </p>
+            </div>
+
+            <div id="faq" class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse1">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>How does <em>GuessTheFormat</em> work?</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse1" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                <em>GuessTheFormat</em> indexes photos from <a type="button" class="btn btn-default btn-xs" href="http://www.flickr.com/explore/interesting/" target="_blank">Flickr Explore</a>.
+                                During indexing, the camera sensor format of each image is derived from the EXIF data.
+                                During the guessing phase on the <a type="button" class="btn btn-default btn-xs" href="/photo">photo</a> page, a random photo from the indexed repository is shown and presented along with two image sensor formats: a correct format, and a random incorrect format.
+                                The player's challenge is to examine the photo and try to select the correct format.
+                                Results are recorded, aggregated regularly, and presented on the <a type="button" class="btn btn-default btn-xs" href="/stats">stats</a> page.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse2">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>What is a camera image sensor <em>format</em>?</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse2" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                The image sensor is the part of a camera that captures the light coming through the lens, and records it as a picture. It's the film of a digital camera!
+                                Image sensors come in many different sizes and aspect ratios. Many common shapes and sizes get classified into standard "formats".
+                            </p>
+                            <p>
+                                For example, a digital camera with a sensor the same shape and size as an old 35mm film camera is called a "full-frame" format camera.
+                                "Full-frame" cameras have relatively large sensors compared to most other digital cameras.
+                                A "compact" camera, for instance, has an image sensor that's a tiny fraction of the area of a "full-frame" sensor.
+                            </p>
+                            <p>
+                                The common belief is that larger sensors are always better than smaller sensors.
+                                Indeed, large sensors (full-frame, APS-C) typically have much better image quality than small sensors (four-thirds, compact).
+                                However, smaller sensors have their advantages too: lower cost and smaller overall camera size.
+                                In fact, a camera with a smaller sensor may produce images that are indistinguishable from those created with a larger sensor camera...especially in the hands of a capable photographer!
+                            </p>
+                            <p>
+                                For more information about camera sensor formats, have a look at the Wikipedia links below:
+                                <ul>
+                                    <li><a type="button" class="btn btn-default btn-xs" href="http://en.wikipedia.org/wiki/Image_sensor_format" target="_blank">Image Sensor Formats</a></li>
+                                    <li><a type="button" class="btn btn-default btn-xs" href="http://en.wikipedia.org/wiki/Full-frame_digital_SLR" target="_blank">Full-Frame Format</a></li>
+                                    <li><a type="button" class="btn btn-default btn-xs" href="http://en.wikipedia.org/wiki/APS-C" target="_blank">APS-C Format</a></li>
+                                    <li><a type="button" class="btn btn-default btn-xs" href="http://en.wikipedia.org/wiki/Micro_Four_Thirds_system" target="_blank">Four-Thirds Format</a></li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse4">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>But I need to see 100%, full-resolution images to tell the difference!</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse4" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                I, too, love <a type="button" class="btn btn-default btn-xs" href="http://www.urbandictionary.com/define.php?term=pixel%20peeper" target="_blank">pixel-peeping</a>.
+                                However, the fact is that most images taken nowadays are destined for social sharing on the web, where they will be viewed at fairly modest resolutions.
+                                Viewing at 100% resolution makes format identification <em>slightly</em> easier to the trained eye, but it's simply not practical for this exercise.
+                                Why not try to guess the format at a resolution that most people will view the image at?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse5">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>I've noticed that format [x] is missing!</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse5" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                I've omitted common formats that are not often found on Flickr.
+                                For example, iPhone images are classified into the "camera phone" format, but they are so rare in <a type="button" class="btn btn-default btn-xs" href="http://www.flickr.com/explore/interesting/" target="_blank">Flickr Explore</a> that they are not worth displaying.
+                                Images from cameras with one-inch sensors (like the Sony RX100 or Nikon 1 series), and APS-H sensors (like the Leica M8 and the older Canon 1D series) are omitted as well.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse6">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>How do you classify [x] camera?</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse6" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                I am very strict about classifying the format of the <em>image sensor</em>, not the camera.
+                                For example, the Nikon Coolpix A camera is the size of a small point-and-shoot, but it has a DX sensor, therefore it is classified as an APS-C format camera.
+                                Sigma's 1.7x crop Foveon-sensor cameras are classified as APS-C as well.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse7">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>Do I have better odds if I always select the more common format?</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse7" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                No.
+                                Formats are chosen with uniform probability: a random format is selected first, <em>then</em> an image with that format is randomly chosen.
+                                In theory, you have a 50/50 chance of choosing the correct format if you always go for the format that's displayed on the left (or right).
+                                This is the other reason that uncommon formats cannot be displayed: their photos would repeat far more often than common formats.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse8">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>Do you make money from this website?</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse8" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                Only if you buy stuff! If you click on a link that takes you to <a type="button" class="btn btn-warning btn-xs" href="http://www.amazon.com/?_encoding=UTF8&camp=1789&creative=390957&linkCode=ur2&tag=michalography-20" target="_blank">Amazon.com</a>,
+                                and make a purchase there, then I will receive a very small percentage of that purchase through the Amazon Associates program, and it doesn't cost you anything extra!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse9">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>Can I suggest [x] feature?</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse9" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                Sure! <a type="button" class="btn btn-default btn-xs" href="http://twitter.com/MikeCialowicz" target="_blank">Tweet</a> at me.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#faq" href="#collapse10">
+                                <i class="indicator glyphicon glyphicon-plus"></i>&nbsp;<strong>I'd like to report a bug or problem!</strong>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="collapse10" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            <p>
+                                Please <a type="button" class="btn btn-default btn-xs" href="http://twitter.com/MikeCialowicz" target="_blank">Tweet</a> the problem to me.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <strong>Who are you?</strong>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table>
+                            <tr>
+                                <td>
+                                    <img src="http://farm7.staticflickr.com/6039/6228870292_7fe9a931e5_s.jpg"/>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <p>
+                                        My name is Michal Cialowicz, and I am a photographer and software engineer.
+                                        Besides photography and software development, I love the outdoors, hiking, camping, traveling, epic motorcycle journeys, and SCUBA diving.
+                                        I live in San Francisco, for now.
+                                    </p>
+                                    <p>
+                                        Check out my website <a type="button" class="btn btn-default btn-xs" href="http://www.michalography.com" target="_blank">michalography.com</a>,
+                                        have a look at some of my photos on <a type="button" class="btn btn-default btn-xs" href="http://www.flickr.com/photos/cialowicz/" target="_blank">Flickr</a>,
+                                        and follow me on <a type="button" class="btn btn-default btn-xs" href="http://twitter.com/MikeCialowicz" target="_blank">Twitter</a>!
+                                    </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleIcon(e) {
+            $(e.target)
+                .prev('.panel-heading')
+                .find('i.indicator')
+                .toggleClass('glyphicon-plus glyphicon-minus');
+            }
+
+        $('#faq').on('hidden.bs.collapse', toggleIcon);
+        $('#faq').on('shown.bs.collapse', toggleIcon);
+    </script>
+}

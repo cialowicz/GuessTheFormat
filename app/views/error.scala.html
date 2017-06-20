@@ -1,0 +1,13 @@
+@(message: String, showTryAgain: Boolean = false)
+
+@main("GuessTheFormat") {
+<div class="jumbotron">
+    <h1>Oops!</h1>
+    <p>@{message}</p>
+    @{
+        if(showTryAgain) {
+            <p><a class="btn btn-primary btn-lg" role="button" onclick="location.reload();">Try Again</a></p>
+        }
+    }
+</div>
+}

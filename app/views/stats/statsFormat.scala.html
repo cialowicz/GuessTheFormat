@@ -1,0 +1,29 @@
+@(f: models.Format.Format,
+  otherFormats: Seq[models.Format.Format],
+  cameraCount: Int,
+  photoCount: Int,
+  statMap: Map[models.Format.Format, models.database.SummarizedStat])
+
+<div class="col-md-6">
+    <div id="@f" class="panel panel-default">
+        <div class="panel-heading">
+            <div class="btn-group">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">@{models.Format.displayLabelFor(f)} <span class="glyphicon glyphicon-info-sign"></span></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a><span class="badge">@{models.Format.cropFactorFor(f)}</span> @{models.Format.cropLabelFor(f)}</a></li>
+                    <li><a><span class="badge">@cameraCount</span> cameras</a></li>
+                    <li><a><span class="badge">@photoCount</span> photos</a></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="list-group">
+            @otherFormats.map(subFormat => {
+                statMap.get(subFormat) match {
+                    // render subformat subview
+                    case Some(summarizedStat) => statssubformat(f, subFormat, summarizedStat)
+                    case None                 => ()
+                }
+            })
+        </ul>
+    </div>
+</div>

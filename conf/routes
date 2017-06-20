@@ -1,0 +1,18 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET         /                                           controllers.Application.index
+GET         /newSession                                 controllers.Application.newSession
+GET         /photo                                      controllers.Application.photo
+GET         /stats                                      controllers.Application.stats
+GET         /about                                      controllers.Application.about
+POST        /error/:message                             controllers.Application.error(message)
+POST        /guess/:photoId/:formatGuess/:otherFormat   controllers.Application.guess(photoId, formatGuess, otherFormat)
+POST        /skip/:photoId/:format1/:format2            controllers.Application.skip(photoId, format1, format2)
+
+# js
+GET         /javascript                                 controllers.Application.javascriptRoutes
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                       controllers.Assets.at(path="/public", file)

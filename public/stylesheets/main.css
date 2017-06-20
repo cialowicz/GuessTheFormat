@@ -1,0 +1,28 @@
+body {
+    padding-top: 5em;
+    padding-bottom: 6em;
+}
+table {
+    background-color: transparent;
+}
+#footer {
+    font-size: 12px;
+}
+.navbar-brand {
+    color: white !important;
+}
+.navbar-fixed-bottom {
+    min-height: 30px;
+}
+.navbar-fixed-bottom .navbar-nav > li > p {
+    margin: 6px 15px 0px 15px;
+}
+.navbar-fixed-bottom .navbar-nav > li > a {
+    margin: 0px 15px 0px 15px;
+    padding: 3px 0px 0px 0px;
+}
+.navbar-fixed-bottom .navbar-nav > li > iframe {
+    margin: 4px 15px 0px 15px;
+    padding: 0px 0px 0px 0px;
+}
+

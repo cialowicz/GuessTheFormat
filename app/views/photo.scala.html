@@ -1,0 +1,214 @@
+@(photo: models.database.Photo,
+  camera: models.database.Camera,
+  format1: models.Format.Format,
+  format2: models.Format.Format,
+  sessionStats: Tuple2[Int, Int])
+
+<style type="text/css">
+    #newSession {
+        background:none;
+        border:none;
+        box-shadow:none;
+    }
+    #or > h1 {
+        margin: 0;
+    }
+    #image {
+        max-width: 1024px;
+        max-height: 900px;
+    }
+</style>
+
+<script>
+    var errorFn = function(error) {
+        console.debug('error in ajax call');
+        console.debug(error);
+    };
+
+    function updateStatsBar(correct, guesses) {
+        var correctPct = Math.round((correct/guesses) * 100);
+        var incorrectPct = 100 - correctPct;
+        $('#correctProgress').width(correctPct + '%');
+        $('#incorrectProgress').width(incorrectPct + '%');
+        $('#correctProgress').html(correctPct + '% (' + correct + ' out of ' + guesses + ')');
+    }
+
+    function populatePhotoAndCameraInfo(photoUrl, format, camera, cameraAdUrl) {
+        $('#jsPhotoUrl').attr('href', photoUrl);
+        $('#jsExifUrl').attr('href', photoUrl + '/meta');
+        $('#jsFormatLabel').html(format);
+        var cameraHtml = $('#jsCameraLabel').html();
+        $('#jsCameraLabel').html(cameraHtml + camera);
+        if(cameraAdUrl) {
+            $('#jsCameraLabel').attr('href', cameraAdUrl);
+        }
+    }
+
+    function hideGuessActions() {
+        $('#guessDescription').fadeOut(250);
+        $('#guessButtons').fadeOut(250);
+        $('#skip').fadeOut(250);
+        $('#nextImage').fadeIn(250);
+        $('#loading').fadeIn(250);
+    }
+
+    function revealInformation() {
+        $('#loading').hide();
+        $('#information').fadeIn(250);
+        $('#progress').fadeIn(250);
+    }
+
+    function guess(photoId, formatGuess, otherFormat) {
+        hideGuessActions();
+
+        jsRoutes.controllers.Application.guess(photoId, formatGuess, otherFormat).ajax({
+            success: function(jsonResult){
+                var result = jQuery.parseJSON(jsonResult);
+
+                populatePhotoAndCameraInfo(result.photoUrl, result.format, result.camera, result.cameraAdUrl);
+                revealInformation();
+
+                if(result.result == "true") {
+                    $("#correct").fadeIn(250);
+                } else {
+                    $("#incorrect").fadeIn(250);
+                }
+
+                updateStatsBar(result.correct, result.guesses);
+            },
+            error: errorFn
+        });
+    };
+
+    function skip(photoId, format1, format2) {
+        hideGuessActions();
+
+        jsRoutes.controllers.Application.skip(photoId, format1, format2).ajax({
+            success: function(jsonResult){
+                var result = jQuery.parseJSON(jsonResult);
+
+                populatePhotoAndCameraInfo(result.photoUrl, result.format, result.camera, result.cameraAdUrl);
+                revealInformation();
+                $("#skipped").fadeIn(250);
+            },
+            error: errorFn
+        });
+    };
+</script>
+
+@main("GuessTheFormat") {
+    <div id="loading" class="row" style="background: url(@routes.Assets.at("images/loading.gif")) no-repeat center; height: 64px; display: none;">
+    </div>
+
+    <div id="guessDescription" class="row">
+        <div class="col-md-5 text-center">
+            <p class="text-muted"><em>Taken with @{models.Format.indefiniteArticleFor(format1)} @{models.Format.lowerDisplayLabelFor(format1)} or @{models.Format.lowerDisplayLabelFor(format2)} camera?</em>&nbsp;&nbsp;&nbsp;<button class="btn btn-xs btn-default" type="button" onclick="skip(@photo.id.get, '@format1', '@format2');">skip</button></p>
+        </div>
+    </div>
+
+    <div id="progress" class="row" style="padding-top: 15px; display: none;">
+        <div class="col-md-9 text-center">
+            <div class="progress">
+                <div id="correctProgress" class="progress-bar progress-bar-success" style="width: @{math.floor((sessionStats._1.toDouble/sessionStats._2) * 100f)}%">@{math.round((sessionStats._1.toDouble/sessionStats._2) * 100f)}% (@sessionStats._1 out of @sessionStats._2)</div>
+                <div id="incorrectProgress" class="progress-bar progress-bar-danger" style="width: @{math.ceil((1 - sessionStats._1.toDouble/sessionStats._2) * 100f)}%"></div>
+            </div>
+        </div>
+        <a id="newSession" title="Clear Results" class="btn btn-sm btn-default" type="label" href="/newSession"><span class="glyphicon glyphicon-trash"></span></a>
+    </div>
+
+    <div id="guessButtons" class="row">
+        <div class="col-md-2 text-right">
+            <button class="btn btn-lg btn-info" type="button" onclick="guess(@photo.id.get, '@format1', '@format2');">@{models.Format.displayLabelFor(format1)}</button>
+        </div>
+        <div id="or" class="col-md-1 text-center">
+            <h1>or</h1>
+        </div>
+        <div class="col-md-2 text-left">
+            <button class="btn btn-lg btn-info" type="button" onclick="guess(@photo.id.get, '@format2', '@format1');">@{models.Format.displayLabelFor(format2)}</button>
+        </div>
+    </div>
+
+    <div id="information" class="row" style="display: none;">
+        <div id="result" class="col-md-3 text-center">
+            <div id="correct" class="alert alert-success" style="display: none;">
+                Correct!
+            </div>
+            <div id="incorrect" class="alert alert-danger" style="display: none;">
+                Ooops, that's not right...
+            </div>
+            <div id="skipped" class="panel panel-default" style="display: none;">
+                <div class="panel-body">
+                    Skipped...
+                </div>
+            </div>
+        </div>
+
+        <div id="nextImage" class="col-md-2 text-center" style="display: none;">
+            <a class="btn btn-lg btn-primary" type="button" href="/photo">Next Photo</a>
+        </div>
+
+        <div id="cameraInfo" class="col-md-6 text-left">
+            <table>
+                <tr>
+                    <td>
+                        <div>
+                            @{camera.adUrl match {
+                                case Some(url) => {
+                                    Html("<a id=\"jsCameraLabel\" title=\"Get it on Amazon!\" class=\"btn btn-warning btn-xs\" type=\"button\" href=\"#error\" target=\"_blank\"><span class=\"glyphicon glyphicon-share-alt\"></span>&nbsp;</a>")
+                                }
+                                case None => {
+                                    Html("<span id=\"jsCameraLabel\" class=\"label label-primary\"></span>")
+                                }
+                            }}
+                            <span id="jsFormatLabel" class="label label-primary">error</span>
+                            <div class="btn-group">
+                                <button class="btn btn-primary btn-xs dropdown-toggle" type="button" data-toggle="dropdown">EXIF <span class="glyphicon glyphicon-info-sign"></span></button>
+                                <ul class="dropdown-menu text-left" role="menu">
+                                    <li><a><span class="badge">@{photo.shutter.getOrElse("?")}s</span> <span class="badge">f/@{photo.aperture.getOrElse("?")}</span> <span class="badge">ISO @{photo.iso.getOrElse("?")}</span></a></li>
+                                    <li><a id="jsExifUrl" href="#error" target="_blank"><span class="glyphicon glyphicon-share-alt"></span> View EXIF on Flickr</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4>
+                            <a id="jsPhotoUrl" title="View it on Flickr!" data-placement="bottom" href="#error" target="_blank">@{
+                                photo.title match {
+                                    case Some(title) => title
+                                    case None        => "untitled"
+                                }}
+                            </a> by <a href="http://www.flickr.com/photos/@photo.userId" target="_blank">@photo.username</a>
+                            <em><small><a href="http://www.flickr.com/explore/@photo.date.format("yyyy")/@photo.date.format("MM")/@photo.date.format("dd")/with/@photo.flickrPhotoId" target="_blank">Explore #@photo.exploreNumber on @photo.date.format("yyyy-MM-dd")</a></small></em>
+                        </h4>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="imageContainer" class="row" style="padding-top: 15px;">
+        <div title="© @photo.username" id="image" oncontextmenu="return false;">
+            <img src="@photo.imageUrlLg" style="max-width: 100%; max-height: 900px; z-index: 0;"/>
+        </div>
+    </div>
+}
+
+<script>
+    // onload
+    $(function() {
+        $('#jsCameraLabel').tooltip();
+        $('#newSession').tooltip();
+        $('#image').tooltip();
+        $('#jsPhotoUrl').tooltip();
+
+        var successText = new Array("Right!", "Correct!", "Spot-on!", "Nice!", "Yes indeed!", "Yep!", "Perfect!");
+        randSuccess = successText[Math.floor(Math.random() * successText.length)];
+        $('#correct').text(randSuccess);
+
+        var failText = new Array("Wrong...", "Incorrect...", "You're mistaken...", "Nope...", "Ooops, no...", "D'oh...");
+        randFail = failText[Math.floor(Math.random() * failText.length)];
+        $('#incorrect').text(randFail);
+    });
+</script>

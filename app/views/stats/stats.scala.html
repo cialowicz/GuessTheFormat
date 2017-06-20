@@ -1,0 +1,85 @@
+@(formats: Seq[models.Format.Format],
+  cameraCounts: Map[models.Format.Format, Int],
+  photoCounts: Map[models.Format.Format, Int],
+  guessStats: Map[models.Format.Format, Map[models.Format.Format, models.database.SummarizedStat]],
+  identifiability: Map[models.Format.Format, Double])
+
+@main("GuessTheFormat: Statistics") {
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", {packages:["corechart"]});
+        google.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('number', 'Prevalence');
+            dataTable.addColumn('number', 'Identifiability');
+            dataTable.addColumn({type: 'string', role: 'tooltip'});
+            @{
+                formats.map(aFormat => {
+                    Html("dataTable.addRow([" + photoCounts.getOrElse(aFormat, 0) + ", " + identifiability.getOrElse(aFormat, 0) + ", '" + models.Format.displayLabelFor(aFormat)+ "']);\n")
+                })
+            }
+
+        var options = {
+            legend: 'none',
+            backgroundColor: { fill:'transparent' },
+            colors: ['orange'],
+            hAxis: {
+                    title: 'Prevalence (photos)',
+                    titleTextStyle: {color: 'white'},
+                    baselineColor: 'white',
+                    textStyle: {color: 'white'}
+            },
+            vAxis: {
+                    title: 'Identifiability (correct ratio)',
+                    minValue: 0, maxValue: 1,
+                    titleTextStyle: {color: 'white'},
+                    baselineColor: 'white',
+                    textStyle: {color: 'white'}
+            }
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart'));
+        chart.draw(dataTable, options);
+        }
+
+        $(document).ready(function () {
+            $(window).resize(function(){
+                drawChart();
+            });
+        });
+    </script>
+
+
+    <div class="page-header">
+        <h3>Statistics <small>for the last @{Config.statsRollupDays} days</small></h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Camera Format Prevalence vs. Identifiability</h3>
+                </div>
+                <div id="chart" style="width: 100%; height: 300px;">
+                    <!-- chart goes here -->
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+
+    @formats.map(thisFormat => {
+        guessStats.get(thisFormat) match {
+            // render format subview
+            case Some(statMap) => statsformat(
+                thisFormat,
+                formats.filterNot(Set(thisFormat)).toList,
+                cameraCounts.get(thisFormat).getOrElse(0),
+                photoCounts.get(thisFormat).getOrElse(0),
+                statMap)
+            case None => ()
+        }
+    })
+}
