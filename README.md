@@ -10,7 +10,7 @@ This README.md was written a full *four* years after this project was last worke
 
 ## Project Structure
 
-This is a [Scala Play Framework](https://www.playframework.com/documentation/2.2.x/Home) application.
+This is a [Scala Play Framework](https://www.playframework.com/documentation/2.2.x/Home) application. See the [build.sbt](build.sbt) file for library dependencies.
 
 There are two main actions:
 
@@ -24,14 +24,16 @@ There are two recurring jobs in [app/Global.scala](app/Global.scala) that will e
  1. Flickr "Explore" photo population: `controllers.PhotoController.populatePhotosFrom`. This is used to generate a DB cache of "Interesting" Flickr explore photos, which is used for random selection.
  1. Stats rollup, for the stats page ([app/views/stats/stats.scala.html](app/views/stats/stats.scala.html)): `controllers.StatsController.statsRollup`
 
-The [conf/cameras.csv](conf/cameras.csv) file must be maintained and updated with the EXIF info of popular cameras (as found on Flickr).
+The [conf/cameras.csv](conf/cameras.csv) file must be maintained and updated with the EXIF info of popular cameras (as found on Flickr). Disclaimer: this file currently has Amazon referral links for certain cameras.
 
 ## Configuration
 
 The [conf/schema.sql](conf/schema.sql) contains the MySQL database schema that's required, and [conf/cameras.csv](conf/cameras.csv) contains the data that should be loaded into the `cameras` table.
 
  1. Set up a MySQL instance with a `gtf` database.
- 1. Update the [conf/application.conf](conf/application.conf) and [conf/application.prod.conf](conf/application.prod.conf) files with your Flickr API keys and MySQL instance connection details.
+ 1. [Generate a new application secret](https://www.playframework.com/documentation/2.5.x/ApplicationSecret#generating-an-application-secret).
+ 1. [Get a Flickr API key](https://www.flickr.com/services/api/misc.api_keys.html).
+ 1. Update the [conf/application.conf](conf/application.conf) and [conf/application.prod.conf](conf/application.prod.conf) files with your Play application secret, Flickr API keys, and MySQL instance connection details.
  1. Run the [conf/schema.sql](conf/schema.sql) against the `gtf` db.
  1. Populate the `cameras` table using the script below.
 
@@ -58,7 +60,7 @@ IGNORE 1 LINES
 This application will run just fine on a single EC2 t2.micro instance.
 
  1. Follow the configuration instructions above, first (get your MySQL db set up and populated, update the config files, etc).
- 1. update version number in build.sbt
+ 1. Update the application version number in the [build.sbt](build.sbt) file.
  1. `play clean`
  1. `play compile`
  1. `play dist`
@@ -70,3 +72,7 @@ This application will run just fine on a single EC2 t2.micro instance.
          echo "-Xms256m -Xmx512m -XX:MaxPermSize=128m -XX:ReservedCodeCacheSize=128m"
        }
 ```
+
+## License
+
+MIT. See [LICENSE.md](LICENSE.md).
