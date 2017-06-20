@@ -51,13 +51,9 @@ IGNORE 1 LINES
 
 ## Running
 
-    sbt run
-
- Or
-
-    chmod +x gtf
-    echo "-Xms256m -Xmx512m -XX:MaxPermSize=128m -XX:ReservedCodeCacheSize=128m"
-    ./gtf -Dconfig.resource=application.prod.conf -Dhttp.port=80 &
+```
+sbt run
+```
 
 ## Deployment
 
