@@ -8,6 +8,8 @@ See [guesstheformat.com/about](http://guesstheformat.com/about) for more informa
 
 This README.md was written a full *four* years after this project was last worked on. The intent here is not to showcase my current programming skills, but to hand off this project to someone else who may want to take over, fork, or maintain it.
 
+Please [contact me](https://twitter.com/MikeCialowicz) to become a contributor/collaborator, or just fork this repository.
+
 ## Project Structure
 
 This is a [Scala Play Framework](https://www.playframework.com/documentation/2.2.x/Home) application. See the [build.sbt](build.sbt) file for library dependencies.
