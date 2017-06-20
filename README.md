@@ -2,7 +2,9 @@
 
 [GuessTheFormat](http://guesstheformat.com) (GTF) is an experiment for photographers: can you tell the difference between camera sensor formats just by looking at a photo?
 
-See [guesstheformat.com/about](http://guesstheformat.com/about) for more information. Or, since you're looking at this git repository, check out [app/views/about.scala.html](app/views/about.scala.html).
+[View a demo video of the application on YouTube](https://youtu.be/hWj2snGiCpU), or see [guesstheformat.com/about](http://guesstheformat.com/about) for more information. Since you're looking at this git repository, check out [app/views/about.scala.html](app/views/about.scala.html).
+
+[![GuessTheFormat Animated Example Image](https://raw.githubusercontent.com/cialowicz/GuessTheFormat/master/public/images/example.gif)](https://youtu.be/hWj2snGiCpU)
 
 ## Notes
 
